@@ -19,12 +19,21 @@ fun main() {
 
     println(cursoAndroid.equals(eCursoAndroid))
 
-    println("=== PROFESSOR ===")
+    println("=== PROFESSOR TITULAR ===")
 
-    val professorJoao = Professor(1, "João", "Camargo", 0)
-    val eProfessorJoao = Professor(1, "João", "Camargo", 0)
+    val professorJoao = ProfessorTitular(1, "João", "Camargo", 0, "Android")
+    val eProfessorJoao = ProfessorTitular(1, "João", "Camargo", 0, "Android")
 
     println(professorJoao)
 
     println(professorJoao.equals(eProfessorJoao))
+
+    println("=== PROFESSOR ADJUNTO ===")
+
+    val professoraVitoria = ProfessorAdjunto(1, "Vitoria", "Gonçalves", 0, 0)
+    val eProfessoraVitoria = ProfessorAdjunto(1, "Vitoria", "Gonçalves", 0, 0)
+
+    println(professoraVitoria)
+
+    println(professoraVitoria.equals(eProfessoraVitoria))
 }
