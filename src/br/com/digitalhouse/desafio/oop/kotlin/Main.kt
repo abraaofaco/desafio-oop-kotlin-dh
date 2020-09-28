@@ -37,7 +37,15 @@ fun main() {
 
     println(cursoAndroid.equals(eCursoAndroid))
 
-    val erroCursoAndroid = Curso(1, "Android", professorJoao, professoraVitoria, 0, alunoAbraao)
+    try {
+        val erroCursoAndroid = Curso(1, "Android", professorJoao, professoraVitoria, 0, alunoAbraao)
+    }catch (e: Exception){
+        println("[ERRO]: ${e.message}")
+    }
 
+    println("=== MATRÍCULA ===")
 
+    val matricula = Matricula(alunoAbraao, cursoAndroid)
+
+    println(matricula)
 }
