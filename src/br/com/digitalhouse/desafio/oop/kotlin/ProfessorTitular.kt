@@ -22,6 +22,6 @@ data class ProfessorTitular(override val codigo: Int,
     }
 
     override fun toString(): String {
-        return "Professor Titular(código=$codigo, nome=$nomeCompleto, tempo de casa=$tempoDeCasa, especialidade='$especialidade')"
+        return "Professor(a) Titular(código=$codigo, nome=$nomeCompleto, tempo de casa=$tempoDeCasa, especialidade='$especialidade')"
     }
 }
