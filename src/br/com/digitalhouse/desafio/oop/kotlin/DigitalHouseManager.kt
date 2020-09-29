@@ -1,6 +1,6 @@
 package br.com.digitalhouse.desafio.oop.kotlin
 
-class DigitalHouseManager() {
+class DigitalHouseManager {
     var alunos = mutableSetOf<Aluno>()
         private set
 
@@ -29,10 +29,10 @@ class DigitalHouseManager() {
     }
 
     fun matricularAluno(codigoAluno: Int, codigoCurso: Int) {
-        var aluno: Aluno? = alunos.filter { it.codigo == codigoAluno }.firstOrNull()
+        val aluno: Aluno? = alunos.firstOrNull { it.codigo == codigoAluno }
                 ?: throw Exception("Aluno não localizado")
 
-        var curso: Curso? = localizarCurso(codigoCurso)
+        val curso: Curso? = cursos.firstOrNull { it.codigo == codigoCurso }
                 ?: throw Exception("Curso não localizado")
 
         curso?.matricularAluno(aluno!!)
@@ -48,7 +48,7 @@ class DigitalHouseManager() {
     }
 
     fun excluirCurso(codigoCurso: Int) {
-        var curso: Curso? = localizarCurso(codigoCurso)
+        val curso: Curso? = cursos.firstOrNull { it.codigo == codigoCurso }
                 ?: throw Exception("Curso não localizado")
 
         cursos.remove(curso)
@@ -73,7 +73,7 @@ class DigitalHouseManager() {
     }
 
     fun excluirProfessor(codigoProfessor: Int) {
-        var professor: Professor? =  professores.filter { it.codigo == codigoProfessor }.firstOrNull()
+        val professor: Professor? = professores.firstOrNull { it.codigo == codigoProfessor }
                 ?: throw Exception("Professor não localizado")
 
         when (professor) {
@@ -85,23 +85,19 @@ class DigitalHouseManager() {
     }
 
     fun alocarProfessores(codigoCurso: Int, codigoProfessorTitular: Int, codigoProfessorAdjunto: Int) {
-        var curso: Curso? = localizarCurso(codigoCurso)
+        val curso: Curso? = cursos.firstOrNull { it.codigo == codigoCurso }
                 ?: throw Exception("Curso não localizado")
 
-        var professorTitular: Professor? =
-                professores.filter { it.codigo == codigoProfessorTitular && it is ProfessorTitular }.firstOrNull()
-                    ?: throw Exception("Professor titular não localizado")
+        val professorTitular: Professor? =
+                professores.firstOrNull { it.codigo == codigoProfessorTitular && it is ProfessorTitular }
+                        ?: throw Exception("Professor titular não localizado")
 
-        var professorAdjunto: Professor? =
-                professores.filter { it.codigo == codigoProfessorAdjunto && it is ProfessorAdjunto }.firstOrNull()
-                    ?: throw Exception("Professor adjunto não localizado")
+        val professorAdjunto: Professor? =
+                professores.firstOrNull { it.codigo == codigoProfessorAdjunto && it is ProfessorAdjunto }
+                        ?: throw Exception("Professor adjunto não localizado")
 
         curso?.alocarProfessorTitular(professorTitular as ProfessorTitular)
         curso?.alocarProfessorAdjunto(professorAdjunto as ProfessorAdjunto)
-    }
-
-    private fun localizarCurso(codigoCurso: Int): Curso? {
-        return cursos.filter { it.codigo == codigoCurso }.firstOrNull()
     }
 
     private fun desalocarProfessorTitular(professor: Professor) {

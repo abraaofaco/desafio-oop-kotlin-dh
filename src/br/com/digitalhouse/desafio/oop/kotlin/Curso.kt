@@ -24,7 +24,7 @@ data class Curso(val codigo: Int, val nome: String, val numMaxAlunos: Int) {
     }
 
     fun excluirMatriculaAluno(aluno: Aluno) {
-        var matricula: Matricula? = matriculas.filter { it.aluno == aluno }.firstOrNull()
+        val matricula: Matricula? = matriculas.firstOrNull { it.aluno == aluno }
                 ?: throw Exception("Matrícula não localizada")
 
         matriculas.remove(matricula)
