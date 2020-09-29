@@ -7,17 +7,10 @@ fun main() {
     val profTitularJoao = ProfessorTitular(1, "João", "Camargo", 0, "Android")
     val profAdjuntoVitoria = ProfessorAdjunto(1, "Vitoria", "Gonçalves", 0, 0)
 
-    val cursoAndroid = Curso(1, "Android", profTitularJoao, profAdjuntoVitoria, 2)
-    val cursoAndroid2 = Curso(2, "Android2", profTitularJoao, profAdjuntoVitoria, 2)
+    val digitalHouseManager = DigitalHouseManager()
 
-    cursoAndroid.matricularAluno(alunoAbraao)
-    cursoAndroid.matricularAluno(alunoVictor)
-
-    val digitalHouseManager = DigitalHouseManager(
-            listOf(alunoAbraao, alunoVictor),
-            listOf(profAdjuntoVitoria, profTitularJoao),
-            listOf(cursoAndroid, cursoAndroid2)
-    )
+    digitalHouseManager.registrarCurso(1, "Android", 2)
+    //digitalHouseManager.excluirCurso(1)
 
     digitalHouseManager.matriculas.forEach { cursoAlunos ->
         println(cursoAlunos.key)
