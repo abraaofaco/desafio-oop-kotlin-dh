@@ -30,6 +30,14 @@ data class Curso(val codigo: Int, val nome: String, val numMaxAlunos: Int) {
         matriculas.remove(matricula)
     }
 
+    fun alocarProfessorTitular(professor: ProfessorTitular) {
+        professorTitular = professor
+    }
+
+    fun alocarProfessorAdjunto(professor: ProfessorAdjunto) {
+        professorAdjunto = professor
+    }
+
     fun desalocarProfessorTitular() {
         professorTitular = null
     }
@@ -55,7 +63,7 @@ data class Curso(val codigo: Int, val nome: String, val numMaxAlunos: Int) {
 
     override fun toString(): String {
         return "Curso(código=$codigo, nome='$nome', nº máx. de alunos=$numMaxAlunos) " +
-                "\n\t ${professorTitular ?: "Professor(a) titular não definido"}  " +
-                "\n\t ${professorAdjunto ?: "Professor(a) adjunto não definido"}"
+                "\n\t ${professorTitular ?: "Professor titular não definido"}  " +
+                "\n\t ${professorAdjunto ?: "Professor adjunto não definido"}"
     }
 }

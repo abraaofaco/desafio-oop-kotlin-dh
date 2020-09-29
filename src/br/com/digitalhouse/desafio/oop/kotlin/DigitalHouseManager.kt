@@ -19,6 +19,25 @@ class DigitalHouseManager() {
             }.toMap()
         }
 
+    fun matricularAluno(codigo: Int, nome: String, sobrenome: String) {
+        val aluno = Aluno(codigo, nome, sobrenome)
+
+        if (alunos.contains(aluno))
+            throw Exception("Aluno já cadastrado")
+
+        alunos.add(aluno)
+    }
+
+    fun matricularAluno(codigoAluno: Int, codigoCurso: Int) {
+        var aluno: Aluno? = alunos.filter { it.codigo == codigoAluno }.firstOrNull()
+                ?: throw Exception("Aluno não localizado")
+
+        var curso: Curso? = localizarCurso(codigoCurso)
+                ?: throw Exception("Curso não localizado")
+
+        curso?.matricularAluno(aluno!!)
+    }
+
     fun registrarCurso(codigo: Int, nome: String, numMaxAlunos: Int) {
         val curso = Curso(codigo, nome, numMaxAlunos)
 
@@ -29,7 +48,7 @@ class DigitalHouseManager() {
     }
 
     fun excluirCurso(codigoCurso: Int) {
-        var curso: Curso? = cursos.filter { it.codigo == codigoCurso }.firstOrNull()
+        var curso: Curso? = localizarCurso(codigoCurso)
                 ?: throw Exception("Curso não localizado")
 
         cursos.remove(curso)
@@ -54,7 +73,7 @@ class DigitalHouseManager() {
     }
 
     fun excluirProfessor(codigoProfessor: Int) {
-        var professor: Professor? = professores.filter { it.codigo == codigoProfessor }.firstOrNull()
+        var professor: Professor? =  professores.filter { it.codigo == codigoProfessor }.firstOrNull()
                 ?: throw Exception("Professor não localizado")
 
         when (professor) {
@@ -65,23 +84,24 @@ class DigitalHouseManager() {
         professores.remove(professor)
     }
 
-    fun matricularAluno(codigo: Int, nome: String, sobrenome: String) {
-        val aluno = Aluno(codigo, nome, sobrenome)
-
-        if (alunos.contains(aluno))
-            throw Exception("Aluno já cadastrado")
-
-        alunos.add(aluno)
-    }
-
-    fun matricularAluno(codigoAluno: Int, codigoCurso: Int) {
-        var aluno: Aluno? = alunos.filter { it.codigo == codigoAluno }.firstOrNull()
-                ?: throw Exception("Aluno não localizado")
-
-        var curso: Curso? = cursos.filter { it.codigo == codigoCurso }.firstOrNull()
+    fun alocarProfessores(codigoCurso: Int, codigoProfessorTitular: Int, codigoProfessorAdjunto: Int) {
+        var curso: Curso? = localizarCurso(codigoCurso)
                 ?: throw Exception("Curso não localizado")
 
-        curso!!.matricularAluno(aluno!!)
+        var professorTitular: Professor? =
+                professores.filter { it.codigo == codigoProfessorTitular && it is ProfessorTitular }.firstOrNull()
+                    ?: throw Exception("Professor titular não localizado")
+
+        var professorAdjunto: Professor? =
+                professores.filter { it.codigo == codigoProfessorAdjunto && it is ProfessorAdjunto }.firstOrNull()
+                    ?: throw Exception("Professor adjunto não localizado")
+
+        curso?.alocarProfessorTitular(professorTitular as ProfessorTitular)
+        curso?.alocarProfessorAdjunto(professorAdjunto as ProfessorAdjunto)
+    }
+
+    private fun localizarCurso(codigoCurso: Int): Curso? {
+        return cursos.filter { it.codigo == codigoCurso }.firstOrNull()
     }
 
     private fun desalocarProfessorTitular(professor: Professor) {

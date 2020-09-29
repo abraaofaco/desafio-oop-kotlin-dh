@@ -26,6 +26,8 @@ fun main() {
     digitalHouseManager.registrarProfessorTitular(1, "João", "Camargo", "Android")
     digitalHouseManager.registrarProfessorAdjunto(2, "Vitoria", "Gonçalves", 10)
 
+    digitalHouseManager.alocarProfessores(1, 1, 2)
+
     //digitalHouseManager.excluirProfessor(1)
 
     digitalHouseManager.professores.forEach {
