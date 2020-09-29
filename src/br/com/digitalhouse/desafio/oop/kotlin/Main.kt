@@ -1,23 +1,43 @@
 package br.com.digitalhouse.desafio.oop.kotlin
 
 fun main() {
-    val alunoAbraao = Aluno(1, "Abraão", "Facó")
-    val alunoVictor = Aluno(2, "Victor", "Rubens")
 
-    val profTitularJoao = ProfessorTitular(1, "João", "Camargo", 0, "Android")
-    val profAdjuntoVitoria = ProfessorAdjunto(1, "Vitoria", "Gonçalves", 0, 0)
+    val digitalHouseManager = DigitalHouseManager()
 
-    val cursoAndroid = Curso(1, "Android", profTitularJoao, profAdjuntoVitoria, 2)
-    val cursoAndroid2 = Curso(2, "Android2", profTitularJoao, profAdjuntoVitoria, 2)
+    println(" === ALUNOS === ")
 
-    cursoAndroid.matricularAluno(alunoAbraao)
-    cursoAndroid.matricularAluno(alunoVictor)
+    digitalHouseManager.matricularAluno(1, "Abraão", "Facó")
+    digitalHouseManager.matricularAluno(2, "Victor", "Rubens")
 
-    val digitalHouseManager = DigitalHouseManager(
-            listOf(alunoAbraao, alunoVictor),
-            listOf(profAdjuntoVitoria, profTitularJoao),
-            listOf(cursoAndroid, cursoAndroid2)
-    )
+    digitalHouseManager.alunos.forEach {
+        println(it)
+    }
+
+    println(" === CURSOS === ")
+
+    digitalHouseManager.registrarCurso(1, "Android", 2)
+
+    digitalHouseManager.cursos.forEach {
+        println(it)
+    }
+
+    println(" === PROFESSORES === ")
+
+    digitalHouseManager.registrarProfessorTitular(1, "João", "Camargo", "Android")
+    digitalHouseManager.registrarProfessorAdjunto(2, "Vitoria", "Gonçalves", 10)
+
+    digitalHouseManager.alocarProfessores(1, 1, 2)
+
+    //digitalHouseManager.excluirProfessor(1)
+
+    digitalHouseManager.professores.forEach {
+        println(it)
+    }
+
+    println(" === MATRÍCULAS === ")
+
+    digitalHouseManager.matricularAluno(1, 1)
+    digitalHouseManager.matricularAluno(2, 1)
 
     digitalHouseManager.matriculas.forEach { cursoAlunos ->
         println(cursoAlunos.key)

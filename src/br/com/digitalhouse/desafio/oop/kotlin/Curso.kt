@@ -1,44 +1,49 @@
 package br.com.digitalhouse.desafio.oop.kotlin
 
-data class Curso(val codigo: Int,
-                 val nome: String,
-                 val professorTitular: ProfessorTitular,
-                 val professorAdjunto: ProfessorAdjunto,
-                 val numMaxAlunos: Int) {
+data class Curso(val codigo: Int, val nome: String, val numMaxAlunos: Int) {
+
+    var professorTitular: ProfessorTitular? = null
+        private set
+
+    var professorAdjunto: ProfessorAdjunto? = null
+        private set
 
     var matriculas = mutableSetOf<Matricula>()
         private set
 
-    constructor(codigo: Int,
-                nome: String,
-                professorTitular: ProfessorTitular,
-                professorAdjunto: ProfessorAdjunto,
-                numMaxAlunos: Int,
-                vararg matriculas: Matricula) : this(codigo, nome, professorTitular, professorAdjunto, numMaxAlunos) {
+    fun matricularAluno(aluno: Aluno) {
+        if (matriculas.filter { it.aluno == aluno }.any())
+            throw Exception("Aluno já matrículado")
 
-        if (matriculas.size > numMaxAlunos)
-            throw Exception("Número de alunos maior que o permitido para o curso")
+        if (matriculas.size + 1 > numMaxAlunos)
+            throw Exception("Curso sem vaga disponível")
 
-        this.matriculas.addAll(matriculas)
-    }
+        val matricula = Matricula(aluno)
 
-    fun matricularAluno(aluno: Aluno): Boolean {
-        if (!matriculas.filter { it.aluno == aluno }.any()) {
-            if (matriculas.size + 1 > numMaxAlunos)
-                return false
-
-            val matricula = Matricula(aluno)
-            matriculas.add(matricula)
-        }
-
-        return true
+        matriculas.add(matricula)
     }
 
     fun excluirMatriculaAluno(aluno: Aluno) {
-        var matricula: Matricula? = matriculas.filter { it.aluno == aluno }.firstOrNull()
-                ?: throw Exception("Matrícula não localizada para o aluno ${aluno.nomeCompleto}")
+        val matricula: Matricula? = matriculas.firstOrNull { it.aluno == aluno }
+                ?: throw Exception("Matrícula não localizada")
 
         matriculas.remove(matricula)
+    }
+
+    fun alocarProfessorTitular(professor: ProfessorTitular) {
+        professorTitular = professor
+    }
+
+    fun alocarProfessorAdjunto(professor: ProfessorAdjunto) {
+        professorAdjunto = professor
+    }
+
+    fun desalocarProfessorTitular() {
+        professorTitular = null
+    }
+
+    fun desalocarProfessorAdjunto() {
+        professorAdjunto = null
     }
 
     override fun equals(other: Any?): Boolean {
@@ -58,6 +63,7 @@ data class Curso(val codigo: Int,
 
     override fun toString(): String {
         return "Curso(código=$codigo, nome='$nome', nº máx. de alunos=$numMaxAlunos) " +
-                "\n\t $professorTitular \n\t $professorAdjunto"
+                "\n\t ${professorTitular ?: "Professor titular não definido"}  " +
+                "\n\t ${professorAdjunto ?: "Professor adjunto não definido"}"
     }
 }
