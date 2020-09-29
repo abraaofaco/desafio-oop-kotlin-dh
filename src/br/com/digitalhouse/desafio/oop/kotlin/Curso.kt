@@ -32,6 +32,14 @@ data class Curso(val codigo: Int,
         matriculas.remove(matricula)
     }
 
+    fun desalocarProfessorTitular() {
+       professorTitular = null
+    }
+
+    fun desalocarProfessorAdjunto() {
+        professorAdjunto = null
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
