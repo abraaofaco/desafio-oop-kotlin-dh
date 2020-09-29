@@ -34,4 +34,22 @@ class DigitalHouseManager() {
 
         cursos.remove(curso)
     }
+
+    fun registrarProfessorAdjunto(codigo: Int, nome: String , sobrenome: String , horasDeMonitoria: Int) {
+        val professor = ProfessorAdjunto(codigo, nome, sobrenome, horasDeMonitoria)
+
+        if(professores.contains(professor))
+            throw Exception("Professor adjunto já cadastrado")
+
+        professores.add(professor)
+    }
+
+    fun registrarProfessorTitular(codigo: Int, nome: String , sobrenome: String , especialidade: String) {
+        val professor = ProfessorTitular(codigo, nome, sobrenome, especialidade)
+
+        if(professores.contains(professor))
+            throw Exception("Professor titular já cadastrado")
+
+        professores.add(professor)
+    }
 }
