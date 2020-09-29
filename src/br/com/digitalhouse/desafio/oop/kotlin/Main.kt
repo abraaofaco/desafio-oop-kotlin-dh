@@ -2,10 +2,16 @@ package br.com.digitalhouse.desafio.oop.kotlin
 
 fun main() {
 
-    val alunoAbraao = Aluno(1, "Abraão", "Facó")
-    val alunoVictor = Aluno(2, "Victor", "Rubens")
-
     val digitalHouseManager = DigitalHouseManager()
+
+    println(" === ALUNOS === ")
+
+    digitalHouseManager.matricularAluno(1, "Abraão", "Facó")
+    digitalHouseManager.matricularAluno(2, "Victor", "Rubens")
+
+    digitalHouseManager.alunos.forEach {
+        println(it)
+    }
 
     println(" === CURSOS === ")
 
@@ -19,15 +25,17 @@ fun main() {
 
     digitalHouseManager.registrarProfessorTitular(1, "João", "Camargo", "Android")
     digitalHouseManager.registrarProfessorAdjunto(2, "Vitoria", "Gonçalves", 10)
-    //digitalHouseManager.registrarProfessorAdjunto(1, "João", "Camargo", 10)
 
-    digitalHouseManager.excluirProfessor(1)
+    //digitalHouseManager.excluirProfessor(1)
 
     digitalHouseManager.professores.forEach {
         println(it)
     }
 
     println(" === MATRÍCULAS === ")
+
+    digitalHouseManager.matricularAluno(1, 1)
+    digitalHouseManager.matricularAluno(2, 1)
 
     digitalHouseManager.matriculas.forEach { cursoAlunos ->
         println(cursoAlunos.key)

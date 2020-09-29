@@ -1,39 +1,37 @@
 package br.com.digitalhouse.desafio.oop.kotlin
 
-data class Curso(val codigo: Int,
-                 val nome: String,
-                 val numMaxAlunos: Int) {
+data class Curso(val codigo: Int, val nome: String, val numMaxAlunos: Int) {
 
     var professorTitular: ProfessorTitular? = null
-    private set
+        private set
 
     var professorAdjunto: ProfessorAdjunto? = null
-    private set
+        private set
 
     var matriculas = mutableSetOf<Matricula>()
         private set
 
-    fun matricularAluno(aluno: Aluno): Boolean {
-        if (!matriculas.filter { it.aluno == aluno }.any()) {
-            if (matriculas.size + 1 > numMaxAlunos)
-                return false
+    fun matricularAluno(aluno: Aluno) {
+        if (matriculas.filter { it.aluno == aluno }.any())
+            throw Exception("Aluno já matrículado")
 
-            val matricula = Matricula(aluno)
-            matriculas.add(matricula)
-        }
+        if (matriculas.size + 1 > numMaxAlunos)
+            throw Exception("Curso sem vaga disponível")
 
-        return true
+        val matricula = Matricula(aluno)
+
+        matriculas.add(matricula)
     }
 
     fun excluirMatriculaAluno(aluno: Aluno) {
         var matricula: Matricula? = matriculas.filter { it.aluno == aluno }.firstOrNull()
-                ?: throw Exception("Matrícula não localizada para o aluno ${aluno.nomeCompleto}")
+                ?: throw Exception("Matrícula não localizada")
 
         matriculas.remove(matricula)
     }
 
     fun desalocarProfessorTitular() {
-       professorTitular = null
+        professorTitular = null
     }
 
     fun desalocarProfessorAdjunto() {
@@ -57,7 +55,7 @@ data class Curso(val codigo: Int,
 
     override fun toString(): String {
         return "Curso(código=$codigo, nome='$nome', nº máx. de alunos=$numMaxAlunos) " +
-                "\n\t ${ professorTitular ?: "Professor(a) titular não definido" }  " +
-                "\n\t ${ professorAdjunto ?: "Professor(a) adjunto não definido" }"
+                "\n\t ${professorTitular ?: "Professor(a) titular não definido"}  " +
+                "\n\t ${professorAdjunto ?: "Professor(a) adjunto não definido"}"
     }
 }

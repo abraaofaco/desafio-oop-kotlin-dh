@@ -65,6 +65,25 @@ class DigitalHouseManager() {
         professores.remove(professor)
     }
 
+    fun matricularAluno(codigo: Int, nome: String, sobrenome: String) {
+        val aluno = Aluno(codigo, nome, sobrenome)
+
+        if (alunos.contains(aluno))
+            throw Exception("Aluno já cadastrado")
+
+        alunos.add(aluno)
+    }
+
+    fun matricularAluno(codigoAluno: Int, codigoCurso: Int) {
+        var aluno: Aluno? = alunos.filter { it.codigo == codigoAluno }.firstOrNull()
+                ?: throw Exception("Aluno não localizado")
+
+        var curso: Curso? = cursos.filter { it.codigo == codigoCurso }.firstOrNull()
+                ?: throw Exception("Curso não localizado")
+
+        curso!!.matricularAluno(aluno!!)
+    }
+
     private fun desalocarProfessorTitular(professor: Professor) {
         cursos.filter { curso ->
             curso.professorTitular == professor
