@@ -1,51 +1,29 @@
 package br.com.digitalhouse.desafio.oop.kotlin
 
 fun main() {
-    println("=== ALUNO ===")
-
     val alunoAbraao = Aluno(1, "Abraão", "Facó")
-    val eAlunoAbraao = Aluno(1, "Abraão", "Facó")
+    val alunoVictor = Aluno(2, "Victor", "Rubens")
 
-    println(alunoAbraao)
+    val profTitularJoao = ProfessorTitular(1, "João", "Camargo", 0, "Android")
+    val profAdjuntoVitoria = ProfessorAdjunto(1, "Vitoria", "Gonçalves", 0, 0)
 
-    println(alunoAbraao.equals(eAlunoAbraao))
+    val cursoAndroid = Curso(1, "Android", profTitularJoao, profAdjuntoVitoria, 2)
+    val cursoAndroid2 = Curso(2, "Android2", profTitularJoao, profAdjuntoVitoria, 2)
 
-    println("=== PROFESSOR TITULAR ===")
+    cursoAndroid.matricularAluno(alunoAbraao)
+    cursoAndroid.matricularAluno(alunoVictor)
 
-    val professorJoao = ProfessorTitular(1, "João", "Camargo", 0, "Android")
-    val eProfessorJoao = ProfessorTitular(1, "João", "Camargo", 0, "Android")
+    val digitalHouseManager = DigitalHouseManager(
+            listOf(alunoAbraao, alunoVictor),
+            listOf(profAdjuntoVitoria, profTitularJoao),
+            listOf(cursoAndroid, cursoAndroid2)
+    )
 
-    println(professorJoao)
+    digitalHouseManager.matriculas.forEach { cursoAlunos ->
+        println(cursoAlunos.key)
 
-    println(professorJoao.equals(eProfessorJoao))
-
-    println("=== PROFESSOR ADJUNTO ===")
-
-    val professoraVitoria = ProfessorAdjunto(1, "Vitoria", "Gonçalves", 0, 0)
-    val eProfessoraVitoria = ProfessorAdjunto(1, "Vitoria", "Gonçalves", 0, 0)
-
-    println(professoraVitoria)
-
-    println(professoraVitoria.equals(eProfessoraVitoria))
-
-    println("=== CURSO ===")
-
-    val cursoAndroid = Curso(1, "Android", professorJoao, professoraVitoria, 0)
-    val eCursoAndroid = Curso(1, "Android", professorJoao, professoraVitoria, 0)
-
-    println(cursoAndroid)
-
-    println(cursoAndroid.equals(eCursoAndroid))
-
-    try {
-        val erroCursoAndroid = Curso(1, "Android", professorJoao, professoraVitoria, 0, alunoAbraao)
-    }catch (e: Exception){
-        println("[ERRO]: ${e.message}")
+        cursoAlunos.value.forEach { aluno ->
+            println("\t\t$aluno")
+        }
     }
-
-    println("=== MATRÍCULA ===")
-
-    val matricula = Matricula(alunoAbraao, cursoAndroid)
-
-    println(matricula)
 }

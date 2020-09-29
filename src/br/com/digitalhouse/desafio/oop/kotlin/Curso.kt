@@ -6,7 +6,7 @@ data class Curso(val codigo: Int,
                  val professorAdjunto: ProfessorAdjunto,
                  val numMaxAlunos: Int) {
 
-    var alunos = mutableListOf<Aluno>()
+    var matriculas = mutableSetOf<Matricula>()
         private set
 
     constructor(codigo: Int,
@@ -14,12 +14,31 @@ data class Curso(val codigo: Int,
                 professorTitular: ProfessorTitular,
                 professorAdjunto: ProfessorAdjunto,
                 numMaxAlunos: Int,
-                vararg alunos: Aluno) : this(codigo, nome, professorTitular, professorAdjunto, numMaxAlunos) {
+                vararg matriculas: Matricula) : this(codigo, nome, professorTitular, professorAdjunto, numMaxAlunos) {
 
-        if (alunos.size > numMaxAlunos)
+        if (matriculas.size > numMaxAlunos)
             throw Exception("Número de alunos maior que o permitido para o curso")
 
-        this.alunos.addAll(alunos)
+        this.matriculas.addAll(matriculas)
+    }
+
+    fun matricularAluno(aluno: Aluno): Boolean {
+        if (!matriculas.filter { it.aluno == aluno }.any()) {
+            if (matriculas.size + 1 > numMaxAlunos)
+                return false
+
+            val matricula = Matricula(aluno)
+            matriculas.add(matricula)
+        }
+
+        return true
+    }
+
+    fun excluirMatriculaAluno(aluno: Aluno) {
+        var matricula: Matricula? = matriculas.filter { it.aluno == aluno }.firstOrNull()
+                ?: throw Exception("Matrícula não localizada para o aluno ${aluno.nomeCompleto}")
+
+        matriculas.remove(matricula)
     }
 
     override fun equals(other: Any?): Boolean {
