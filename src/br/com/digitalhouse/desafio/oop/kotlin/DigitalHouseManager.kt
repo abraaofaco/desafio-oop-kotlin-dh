@@ -38,6 +38,13 @@ class DigitalHouseManager {
         curso?.matricularAluno(aluno!!)
     }
 
+    fun consultarCursosMatriculados(codigoAluno: Int): List<Curso> {
+        val aluno: Aluno? = alunos.firstOrNull { it.codigo == codigoAluno }
+                ?: throw Exception("Aluno não localizado")
+
+        return matriculas.filter { it.value.contains(aluno) }.map { it.key }
+    }
+
     fun registrarCurso(codigo: Int, nome: String, numMaxAlunos: Int) {
         val curso = Curso(codigo, nome, numMaxAlunos)
 
